@@ -5,18 +5,18 @@ module.exports = {
     template: "",
   },
   persistence: {
-    board : 'kidbright-arduino',
+    board : 'esp32-wroom',
     board_info : {
-      name : 'kidbright-arduino',
+      name : 'esp32-wroom',
       platform : 'arduino-esp32',
-      title : 'Kidbright (Arduino API)',
-      description : 'บอร์ด KidBright เขียนบนแพลตฟอร์ม Arduino-ESP32 ทำให้สามารถใช้ความสามารถใหม่ ๆ และปลั๊กอินของ Arduino ได้',
-      author : 'Maker Asia (maintain by Comdet)',
-      email : 'makerasia@gmail.com',
-      website : 'https://github.com/MakerAsia/kidbright-arduino-board/',
-      git : "https://github.com/MakerAsia/kidbright-arduino-board/",
+      title : 'Generic ESP32 Wroom',
+      description : 'ESP32-Wroom development board (Compatible with all ESP32 board).\n',
+      author : 'Comdet Phueadphut',
+      email : 'comdet.p@gmail.com',
+      website : 'https://docs.espressif.com/projects/esp-idf/en/latest/hw-reference/get-started-devkitc.html',
+      git : "https://github.com/comdet/generic-esp32-wroom/",
       image : '/static/display.jpg',
-      version : '1.1.4'
+      version : '1.0.1'
     }
   },
 };
