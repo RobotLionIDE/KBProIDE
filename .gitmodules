@@ -1,0 +1,15 @@
+[submodule "platforms/esp-idf"]
+	path = platforms/esp-idf
+	url = https://github.com/RobotLionIDE/kbpro-esp-idf-platfrom.git
+[submodule "platforms/arduino-esp32"]
+	path = platforms/arduino-esp32
+	url = https://github.com/RobotLionIDE/kbpro-arduino-platfrom.git
+[submodule "platforms/arduino-avr"]
+	path = platforms/arduino-avr
+	url = https://github.com/RobotLionIDE/kbide-arduino-avr-platform.git
+[submodule "packages/kbide-extension-pack"]
+	path = packages/kbide-extension-pack
+	url = https://github.com/RobotLionIDE/kbide-extension-pack.git
+[submodule "boards/esp32-wroom"]
+	path = boards/esp32-wroom
+	url = https://github.com/RobotLionIDE/generic-esp32-wroom.git
