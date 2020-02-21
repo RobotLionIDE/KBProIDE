@@ -4,16 +4,16 @@
             <v-btn color="primary darken-2" slot="activator" icon @click="boardDialog = !boardDialog">
                 <v-icon dark>fa-microchip</v-icon>
             </v-btn>
-            <span>Board Manager</span>
+            <span>Менеджер плат</span>
         </v-tooltip>
         <v-dialog v-model="boardDialog" max-width="80%" max-height="81%" scrollable persistent>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Current board : {{ this.$global.board.board_info.title }}</span>
+                    <span class="headline">Текущая плата : {{ this.$global.board.board_info.title }}</span>
                     <v-spacer class="hidden-xs-only"></v-spacer>
                     <v-text-field
                             prepend-icon="search"
-                            label="Board name"
+                            label="Название платы"
                             class="ma-0 pa-0 search-board"
                             single-line
                             clearable
@@ -35,16 +35,16 @@
                                               <v-list-tile-title>Order by vendor</v-list-tile-title>
                                           </v-list-tile-->
                             <v-list-tile @click="changeOrder('recommended')">
-                                <v-list-tile-title>Order by recommended</v-list-tile-title>
+                                <v-list-tile-title>Сортировать по рекомендациям</v-list-tile-title>
                             </v-list-tile>
                             <v-list-tile @click="changeOrder('name')">
-                                <v-list-tile-title>Order by name</v-list-tile-title>
+                                <v-list-tile-title>Сортировать по названию</v-list-tile-title>
                             </v-list-tile>
                             <v-list-tile @click="changeOrder('platform')">
-                                <v-list-tile-title>Order by platform</v-list-tile-title>
+                                <v-list-tile-title>Сортировать по чипу</v-list-tile-title>
                             </v-list-tile>
                             <v-list-tile @click="changeOrder('vendor')">
-                                <v-list-tile-title>Order by vendor</v-list-tile-title>
+                                <v-list-tile-title>Сортировать по производителю</v-list-tile-title>
                             </v-list-tile>
                         </v-list>
                     </v-menu>
@@ -167,14 +167,14 @@
 
                         <v-divider></v-divider>
                         <h3 class="ml-2 mt-2">
-                            Online available
+                            Доступны для скачивания
                         </h3>
 
                         <div>
                             <v-container grid-list-xl fluid>
                                 <v-layout wrap>
                                     <v-flex v-if="isOnline() === false" xs12 md12 sm12 class="text-xs-center">
-                                        Please connect internet to use this feature.
+                                        Пожалуйста, подключитесь к Internet.
                                     </v-flex>
                                     <v-flex v-else-if="onlineBoardStatus === 'wait'" xs12 md12 sm12 class="text-xs-center">
                                         <v-progress-circular
@@ -279,9 +279,9 @@
                            @click="changeBoard(selectingBoard)"
                            :disabled="this.$global.board.board_info.name === this.selectingBoard.name"
                     >
-                        Change Board
+                        Сменить плату
                     </v-btn>
-                    <v-btn class="btn-danger" flat @click.native="boardDialog = false">Close</v-btn>
+                    <v-btn class="btn-danger" flat @click.native="boardDialog = false">Отмена</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -349,7 +349,7 @@
           sorted["Recommended"] = [];
           obj.forEach(el => {
             let key =
-              el.title.toLowerCase().includes("kidbright") ||
+              el.title.toLowerCase().includes("esp32") ||
               el.recommended === "ilovekbide"
                 ? "Recommended"
                 : defaultName;
@@ -486,11 +486,11 @@
       changeBoard: async function(boardInfo) {
         this.boardDialog = false;
         const res = await this.$dialog.confirm({
-          text: "Changing board will clear your workspace. please confirm.",
-          title: "Warning",
+          text: "Смена платы удалит вашу программу.",
+          title: "Внимание",
           actions: [
-            { text: "Confirm", key: "confirm" },
-            { text: "Cancel", key: "cancel", color: "red darken-1" }
+            { text: "Сменить", key: "confirm" },
+            { text: "Отмена", key: "cancel", color: "red darken-1" }
           ]
         });
         if (res) {
@@ -523,12 +523,16 @@
       },
       installOnlineBoard: async function(boardInfo) {
         const res = await this.$dialog.confirm({
-          text: "Do you really want to install " + boardInfo.title + "?",
-          title: "Warning"
+          text: "Вы действительно хотите установить " + boardInfo.title + "?",
+          title: "Внимание",
+            actions: [
+                { text: "Установить", key: true },
+                { text: "Отмена", key: false, color: "red darken-1" }
+            ]
         });
         if (res === true) {
           boardInfo.status = "DOWNLOAD";
-          this.statusText = "Downloading";
+          this.statusText = "Загрузка";
           this.statusProgress = 0;
           bm.installOnlineBoard(boardInfo, progress => {
             //{process : 'board', status : 'DOWNLOAD', state:state }
@@ -538,12 +542,12 @@
                 boardInfo.status = "DOWNLOAD";
               }
               //when download just show to text
-              this.statusText = `Downloading ... ${util.humanFileSize(
+              this.statusText = `Загрузка ... ${util.humanFileSize(
                 progress.state.size.transferred
               )} at ${(progress.state.speed / 1000.0 / 1000.0).toFixed(2)}Mbps`;
             } else if (progress.status === "UNZIP") {
               boardInfo.status = "UNZIP";
-              this.statusText = `Unzip file ${progress.state.percentage}%`;
+              this.statusText = `Распаковка ${progress.state.percentage}%`;
               this.statusProgress = progress.state.percentage;
             }
           })
@@ -565,7 +569,7 @@
                 });
             })
             .catch(err => {
-              this.statusText = `Error : ${err}`;
+              this.statusText = `Ошибка : ${err}`;
               boardInfo.status = "ERROR";
               setTimeout(() => {
                 boardInfo.status = "READY";
@@ -576,8 +580,12 @@
       },
       removeBoard: async function(boardInfo) {
         const res = await this.$dialog.confirm({
-          text: "Do you really want to remove " + boardInfo.title + "?",
-          title: "Warning"
+          text: "Вы действительно хотите удалить " + boardInfo.title + "?",
+          title: "Внимание",
+          actions: [
+            { text: "Удалить", key: true },
+            { text: "Отмена", key: false, color: "red darken-1" }
+          ]
         });
         if (res === true) {
           console.log("removing board : " + boardInfo.name);
@@ -597,15 +605,15 @@
                 });
             })
             .catch(err => {
-              console.log("Error : cannot remove board");
+              console.log("Ошибка : не возможно удалить плату");
               console.log(err);
             });
         }
       },
       updateBoard: async function(boardInfo) {
         const res = await this.$dialog.confirm({
-          text: "Do you want to update " + boardInfo.title,
-          title: "Warning"
+          text: "Вы действительно хотите обновить " + boardInfo.title,
+          title: "Внимание"
         });
         if (res === true) {
           let b = boardInfo;
@@ -614,20 +622,20 @@
             .then(() => {
               console.log("update board : " + boardInfo.name);
               b.status = "DOWNLOAD";
-              this.statusText = "Downloading";
+              this.statusText = "Загрузка";
               this.statusProgress = 0;
               return bm.installOnlineBoard(boardInfo, progress => {
                 //{process : 'board', status : 'DOWNLOAD', state:state }
                 if (progress.status === "DOWNLOAD") {
                   //when download just show to text
-                  this.statusText = `Downloading ... ${util.humanFileSize(
+                  this.statusText = `Загрузка ... ${util.humanFileSize(
                     progress.state.size.transferred
                   )} at ${(progress.state.speed / 1000.0 / 1000.0).toFixed(
                     2
                   )}Mbps`;
                 } else if (progress.status === "UNZIP") {
                   b.status = "UNZIP";
-                  this.statusText = `Unzip file ${progress.state.percentage}%`;
+                  this.statusText = `Распаковка ${progress.state.percentage}%`;
                   this.statusProgress = progress.state.percentage;
                 }
               });
@@ -656,7 +664,7 @@
             })
             .catch(err => {
               console.error(err);
-              this.statusText = `Error : ${err}`;
+              this.statusText = `Ошибка : ${err}`;
               b.status = "ERROR";
               bm.restoreBoard(boardInfo).then(() => {});
               setTimeout(() => {

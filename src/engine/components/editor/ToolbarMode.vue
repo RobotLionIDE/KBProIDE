@@ -4,12 +4,12 @@
             <v-btn color="primary darken-2" slot="activator" icon @click="onChangeModeDialog">
                 <v-icon dark>fa-users</v-icon>
             </v-btn>
-            <span>Programming Mode</span>
+            <span>Режим программирования</span>
         </v-tooltip>
         <v-dialog v-model="modeDialog" max-width="800px" persistent>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Select programming mode</span>
+                    <span class="headline">Выберите режим программирования</span>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text>
@@ -68,12 +68,12 @@
                             }"
                            flat
                            @click.native="changeEditorMode(selectingMode)">
-                        Change Editor
+                        Сменить режим
                     </v-btn>
                     <v-btn class="btn-danger"
                            flat
                            @click.native="modeDialog = false">
-                        Close
+                        Отмена
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -99,8 +99,8 @@
         selectingMode: this.$global.editor.mode,
         modes: [
           {
-            name: "Block programming",
-            desc: "Easy programming with blocks",
+            name: "Блочное программирование",
+            desc: "Упрощенное программирование с использованием блоков",
             icon: {
               src: "/static/icons/jigsaw_128_wbg.png",
               size: "96"
@@ -117,8 +117,8 @@
             mode: 2
           },
           {
-            name: "Text-based programming",
-            desc: "Coding with C/C++ language",
+            name: "Написание кода",
+            desc: "Программирование на языке C/C++",
             icon: {
               src: "/static/icons/source-code2_128_wbg.png",
               size: "96"

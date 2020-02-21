@@ -4,16 +4,16 @@
             <v-btn color="primary darken-2" slot="activator" icon @click="pluginDialog = !pluginDialog">
                 <v-icon dark>fa-plug</v-icon>
             </v-btn>
-            <span>Plugin Manager</span>
+            <span>Менеджер плагинов</span>
         </v-tooltip>
         <v-dialog v-model="pluginDialog" max-width="70%" max-height="80%" scrollable persistent>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Plugin Manager</span>
+                    <span class="headline">Менеджер плагинов</span>
                     <v-spacer class="hidden-xs-only"></v-spacer>
                     <v-text-field
                             prepend-icon="search"
-                            label="plugin name"
+                            label="Название плагина"
                             class="ma-0 pa-0 search-board"
                             single-line
                             clearable
@@ -28,7 +28,7 @@
                             <v-icon>filter_list</v-icon>
                         </v-btn>
                         <v-card class="filter" max-width=350>
-                            <v-card-title class="subheading">Filter</v-card-title>
+                            <v-card-title class="subheading">Фильтр</v-card-title>
                             <v-divider></v-divider>
                             <v-card-text>
                                 <v-list-tile-content>
@@ -37,20 +37,20 @@
                                             <v-combobox
                                                     v-model="filter.order.sortby"
                                                     :items="filter.order.init_orders"
-                                                    label="Sort by"
+                                                    label="Сортировать по"
                                             ></v-combobox>
                                         </v-flex>
                                     </v-list-tile-action>
                                 </v-list-tile-content>
                                 <v-divider></v-divider>
                                 <v-list-tile-content>
-                                    <v-list-tile-title>Categories</v-list-tile-title>
+                                    <v-list-tile-title>Категории</v-list-tile-title>
                                     <div>
                                         <v-btn flat small color="primary"
-                                               @click="filter.categories.selected = filter.categories.init_selected">select all
+                                               @click="filter.categories.selected = filter.categories.init_selected">Выбрать все
                                         </v-btn>
                                         <v-btn flat small color="primary"
-                                               @click="filter.categories.selected = []">select none
+                                               @click="filter.categories.selected = []">Снять выделение
                                         </v-btn>
                                     </div>
                                     <v-list-tile-action>
@@ -72,8 +72,8 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="primary" flat @click="filter.menu = false">Cancel</v-btn>
-                                <v-btn color="primary" @click="applyFilter">Apply</v-btn>
+                                <v-btn color="primary" flat @click="filter.menu = false">Отмена</v-btn>
+                                <v-btn color="primary" @click="applyFilter">Применить</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-menu>
@@ -82,7 +82,7 @@
                 <smooth-scrollbar ref="scrollbar">
                     <v-card-text>
                         <v-subheader>
-                            Installed
+                            Установлены
                         </v-subheader>
                         <div>
                             <v-list three-line>
@@ -149,7 +149,7 @@
                         <v-divider></v-divider>
 
                         <v-subheader>
-                            Online available
+                            Доступны для скачивания
                         </v-subheader>
 
                         <div>
@@ -218,7 +218,7 @@
                     <v-btn v-if="$global.setting.devMode === true" class="btn-primary" flat
                            @click.native="publishNewPlugin">Publish your plugin
                     </v-btn>
-                    <v-btn class="btn-danger" flat @click.native="pluginDialog = false">Close</v-btn>
+                    <v-btn class="btn-danger" flat @click.native="pluginDialog = false">Закрыть</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -280,16 +280,16 @@
             init_selected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
             selected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
             name: [
-              "Display",
-              "Communication",
-              "Signal Input/Output",
-              "Sensors",
-              "Device Control",
-              "Timing",
-              "Data Storage",
-              "Data Processing",
-              "Other",
-              "Uncategorized"
+              "Экран",
+              "Комуникации",
+              "Ввод вывод",
+              "Датчики",
+              "Управление приводом",
+              "Время",
+              "Хранение данных",
+              "Управление данными",
+              "Прочее",
+              "Без категории"
             ]
           }
         }
@@ -432,18 +432,18 @@
       installOnlinePlugin(name) {
         let b = this.getOnlinePluginByName(name);
         b.status = "DOWNLOAD";
-        this.statusText = "Downloading";
+        this.statusText = "Загрузка";
         this.statusProgress = 0;
         pm.installOnlinePlugin(b, progress => {
           //{process : 'board', status : 'DOWNLOAD', state:state }
           if (progress.status === "DOWNLOAD") {
             //when download just show to text
-            this.statusText = `Downloading ... ${util.humanFileSize(
+            this.statusText = `Загрузка ... ${util.humanFileSize(
               progress.state.size.transferred
             )} at ${(progress.state.speed / 1000.0 / 1000.0).toFixed(2)}Mbps`;
           } else if (progress.status === "UNZIP") {
             b.status = "UNZIP";
-            this.statusText = `Unzip file ${progress.state.percentage}%`;
+            this.statusText = `Распаковка ${progress.state.percentage}%`;
             this.statusProgress = progress.state.percentage;
           }
         }).then(() => {
@@ -467,8 +467,12 @@
       },
       removePlugin: async function(name) {
         const res = await this.$dialog.confirm({
-          text: "Do you really want to remove " + name + "? , this process will clear your code.",
-          title: "Warning"
+          text: "Вы действительно хотите удалить " + name + "? Это приведет к очистке кода программы.",
+          title: "Внимание",
+            actions: [
+                { text: "Удалить", key: true },
+                { text: "Отмена", key: false, color: "red darken-1" }
+            ]
         });
         if (res === true) {
           console.log("removing plugin : " + name);
@@ -489,8 +493,12 @@
       },
       updatePlugin: async function(name) {
         const res = await this.$dialog.confirm({
-          text: "Do you want to update " + name + " plugin?",
-          title: "Warning"
+          text: "Вы действительно хотите обновить плагин " + name + "?",
+          title: "Внимание",
+            actions: [
+                { text: "Обновить", key: true },
+                { text: "Отмена", key: false, color: "red darken-1" }
+            ]
         });
         if (res === true) {
           let p = this.getPluginByName(name);
@@ -498,20 +506,20 @@
           pm.backupPlugin(p).then(() => {
             console.log("update plugin : " + name);
             p.status = "DOWNLOAD";
-            this.statusText = "Downloading";
+            this.statusText = "Загрузка";
             this.statusProgress = 0;
             return pm.installOnlinePlugin(p.category, progress => {
               //{process : 'board', status : 'DOWNLOAD', state:state }
               if (progress.status === "DOWNLOAD") {
                 //when download just show to text
-                this.statusText = `Downloading ... ${util.humanFileSize(
+                this.statusText = `Загрузка ... ${util.humanFileSize(
                   progress.state.size.transferred
                 )} at ${(progress.state.speed / 1000.0 / 1000.0).toFixed(
                   2
                 )}Mbps`;
               } else if (progress.status === "UNZIP") {
                 p.status = "UNZIP";
-                this.statusText = `Unzip file ${progress.state.percentage}%`;
+                this.statusText = `Распаковка ${progress.state.percentage}%`;
                 this.statusProgress = progress.state.percentage;
               }
             });

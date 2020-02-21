@@ -2,14 +2,14 @@
 <div id="themeSetting">
   <v-toolbar color="primary" dark>
     <v-toolbar-title>
-      Settings
+      Настройки
     </v-toolbar-title>
   </v-toolbar>
   <v-container>
     <v-layout column>
       <v-flex>
         <v-subheader class="px-1 my-2">
-          Theme color
+          Цвет оформления
         </v-subheader>
         <div class="color-option">
           <v-layout wrap>
@@ -37,12 +37,12 @@
         <v-divider></v-divider>
         <v-flex>
             <v-subheader class="px-1 my-2">
-                Developer Mode
+                Режим разработки
             </v-subheader>
             <div class="my-3">
                 <v-switch 
                     v-model="$global.setting.devMode" 
-                    :label="`Enabled : ${$global.setting.devMode ? 'ON' : 'OFF'}`">
+                    :label="`Enabled : ${$global.setting.devMode ? 'Вкл' : 'Выкл'}`">
                 </v-switch>
             </div>
         </v-flex>

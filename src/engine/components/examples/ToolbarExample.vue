@@ -4,19 +4,19 @@
             <v-btn color="primary darken-2" slot="activator" icon @click="exampleDialog = !exampleDialog">
                 <v-icon dark>fa-code</v-icon>
             </v-btn>
-            <span>Examples & tutorials</span>
+            <span>Примеры и уроки</span>
         </v-tooltip>
         <v-dialog v-model="exampleDialog" max-width="70%" max-height="80%" scrollable persistent>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Examples & Tutorials</span>
+                    <span class="headline">Примеры и уроки</span>
                     <v-spacer class="hidden-xs-only"></v-spacer>
                 </v-card-title>
                 <v-divider></v-divider>
                 <smooth-scrollbar>
                     <v-card-text>
                         <v-subheader class="title">
-                            Platform Examples
+                            Примеры платформы
                         </v-subheader>
 
                         <div>
@@ -26,7 +26,7 @@
                         <v-divider></v-divider>
 
                         <v-subheader class="title">
-                            Board Examples
+                            Примеры платы
                         </v-subheader>
                         <div>
                             <tree-menu :nodes="boardExample" v-on:open="openExample"></tree-menu>
@@ -35,7 +35,7 @@
                         <v-divider></v-divider>
 
                         <v-subheader class="title">
-                            Plugin Examples
+                            Примеры плагинов
                         </v-subheader>
                         <div>
                             <tree-menu2 :nodes="pluginInfo" v-on:open="openExample"></tree-menu2>
@@ -44,7 +44,7 @@
                 </smooth-scrollbar>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="btn-danger" flat @click.native="exampleDialog = false">Close</v-btn>
+                    <v-btn class="btn-danger" flat @click.native="exampleDialog = false">Закрыть</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>

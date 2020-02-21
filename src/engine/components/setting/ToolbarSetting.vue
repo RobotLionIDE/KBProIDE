@@ -7,7 +7,7 @@
         >
             <v-icon dark>fa-gear</v-icon>
         </v-btn>
-        <span>Setting</span>
+        <span>Настройки</span>
     </v-tooltip>
 </template>
 <script>

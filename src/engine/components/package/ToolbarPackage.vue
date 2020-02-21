@@ -4,16 +4,16 @@
             <v-btn color="primary darken-2" slot="activator" icon @click="packageDialog = !packageDialog">
                 <v-icon dark>fa-cubes</v-icon>
             </v-btn>
-            <span>Package Manager</span>
+            <span>Менеджер пакетов</span>
         </v-tooltip>
         <v-dialog v-model="packageDialog" max-width="70%" max-height="80%" scrollable persistent>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Package Manager</span>
+                    <span class="headline">Менеджер пакетов</span>
                     <v-spacer class="hidden-xs-only"></v-spacer>
                     <v-text-field
                             prepend-icon="search"
-                            label="package name"
+                            label="Название пакета"
                             class="ma-0 pa-0 search-board"
                             single-line
                             clearable
@@ -28,7 +28,7 @@
                             <v-icon>filter_list</v-icon>
                         </v-btn>
                         <v-card class="filter" max-width=350>
-                            <v-card-title class="subheading">Filter</v-card-title>
+                            <v-card-title class="subheading">Фильтр</v-card-title>
                             <v-divider></v-divider>
                             <v-card-text>
                                 <v-list-tile-content>
@@ -37,7 +37,7 @@
                                             <v-combobox
                                                     v-model="filter.order.sortby"
                                                     :items="filter.order.init_orders"
-                                                    label="Sort by"
+                                                    label="Сортировать по"
                                             ></v-combobox>
                                         </v-flex>
                                     </v-list-tile-action>
@@ -46,8 +46,8 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="primary" flat @click="filter.menu = false">Cancel</v-btn>
-                                <v-btn color="primary" @click="applyFilter">Apply</v-btn>
+                                <v-btn color="primary" flat @click="filter.menu = false">Отмена</v-btn>
+                                <v-btn color="primary" @click="applyFilter">Применить</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-menu>
@@ -56,7 +56,7 @@
                 <smooth-scrollbar ref="scrollbar">
                     <v-card-text>
                         <v-subheader>
-                            Installed
+                            Установлены
                         </v-subheader>
                         <div>
                             <v-list three-line>
@@ -123,7 +123,7 @@
                         <v-divider></v-divider>
 
                         <v-subheader>
-                            Online available
+                            Доступны для скачивания
                         </v-subheader>
 
                         <div>
@@ -192,7 +192,7 @@
                     <v-btn v-if="$global.setting.devMode === true" class="btn-primary" flat
                            @click.native="publishNewPackage">Publish your package
                     </v-btn>
-                    <v-btn class="btn-danger" flat @click.native="packageDialog = false">Close</v-btn>
+                    <v-btn class="btn-danger" flat @click.native="packageDialog = false">Закрыть</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -382,18 +382,18 @@
       installOnlinePackage(name) {
         let b = this.getOnlinePackageByName(name);
         b.status = "DOWNLOAD";
-        this.statusText = "Downloading";
+        this.statusText = "Загрузка";
         this.statusProgress = 0;
         pm.installOnlinePackage(b, progress => {
           //{process : 'board', status : 'DOWNLOAD', state:state }
           if (progress.status === "DOWNLOAD") {
             //when download just show to text
-            this.statusText = `Downloading ... ${util.humanFileSize(
+            this.statusText = `Загрузка ... ${util.humanFileSize(
               progress.state.size.transferred
             )} at ${(progress.state.speed / 1000.0 / 1000.0).toFixed(2)}Mbps`;
           } else if (progress.status === "UNZIP") {
             b.status = "UNZIP";
-            this.statusText = `Unzip file ${progress.state.percentage}%`;
+            this.statusText = `Распаковка ${progress.state.percentage}%`;
             this.statusProgress = progress.state.percentage;
           }
         }).then(() => {
@@ -419,8 +419,12 @@
       },
       removePackage: async function(name) {
         const res = await this.$dialog.confirm({
-          text: "Do you really want to remove " + name + "? , this process will clear your code.",
-          title: "Warning"
+          text: "Вы действительно хотите удалить " + name + "? Это приведет к очистке кода программы.",
+          title: "Внимание",
+            actions: [
+                { text: "Удалить", key: true },
+                { text: "Отмена", key: false, color: "red darken-1" }
+            ]
         });
         if (res === true) {
           console.log("removing package : " + name);
@@ -442,8 +446,12 @@
       },
       updatePackage: async function(name) {
         const res = await this.$dialog.confirm({
-          text: "Do you want to update " + name + " package?",
-          title: "Warning"
+          text: "Вы действительно хотите обновить пакет " + name + "?",
+          title: "Внимание",
+            actions: [
+                { text: "Обновить", key: true },
+                { text: "Отмена", key: false, color: "red darken-1" }
+            ]
         });
         if (res === true) {
           let p = this.getPackageByName(name);
@@ -451,20 +459,20 @@
           pm.backupPackage(p).then(() => {
             console.log("update package : " + name);
             p.status = "DOWNLOAD";
-            this.statusText = "Downloading";
+            this.statusText = "Загрузка";
             this.statusProgress = 0;
             return pm.installOnlinePackage(p.config, progress => {
               //{process : 'board', status : 'DOWNLOAD', state:state }
               if (progress.status === "DOWNLOAD") {
                 //when download just show to text
-                this.statusText = `Downloading ... ${util.humanFileSize(
+                this.statusText = `Загрузка ... ${util.humanFileSize(
                   progress.state.size.transferred
                 )} at ${(progress.state.speed / 1000.0 / 1000.0).toFixed(
                   2
                 )}Mbps`;
               } else if (progress.status === "UNZIP") {
                 p.status = "UNZIP";
-                this.statusText = `Unzip file ${progress.state.percentage}%`;
+                this.statusText = `Распаковка ${progress.state.percentage}%`;
                 this.statusProgress = progress.state.percentage;
               }
             });

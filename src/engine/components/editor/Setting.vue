@@ -3,19 +3,19 @@
         <v-divider></v-divider>
         <v-flex>
             <v-subheader class="px-1 my-2">
-                Editor Setting
+                Настройки редактора
             </v-subheader>
             <div class="my-3">
                 <v-select
                         :items="editorTheme"
-                        label="Select theme"
+                        label="Выбрать тему"
                         v-model="editorThemeValue">
                 </v-select>
             </div>
             <div class="my-3">
                 <v-select
                         :items="fontSize"
-                        label="Font size"
+                        label="Размер шрифта"
                         v-model="editorFontsize"
                 ></v-select>
             </div>
