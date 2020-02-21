@@ -22,52 +22,54 @@ const template = [
     ]
     : []),
   {
-    label: "File",
+    label: "Файл",
     submenu: [
       {
-        label: "New",
+        label: "Новый",
         accelerator: "CmdOrCtrl+N",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("file-new");
         }
       },
       {
-        label: "Open",
+        label: "Открыть",
         accelerator: "CmdOrCtrl+O",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("file-open");
         }
       },
       {
-        label: "Save as",
+        label: "Сохранить как",
         accelerator: "CmdOrCtrl+S",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("file-save");
         }
       },
+      /*
       { type: "separator" },
       {
-        label: "Open Board folder",
+        label: "Открыть папку плат",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("file-board-folder");
         }
       },
       {
-        label: "Open Platform folder",
+        label: "Открыть папку платформ",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send(
             "file-platform-folder");
         }
       },
       {
-        label: "Open Plugin folder",
+        label: "Открыть папку плагинов",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("file-plugin-folder");
         }
       },
+      */
       { type: "separator" },
       {
-        label: "Setting",
+        label: "Настройки",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("file-setting",
             "");
@@ -75,16 +77,16 @@ const template = [
       },
       { type: "separator" },
       isMac
-        ? { role: "close" }
-        : { role: "quit" }
+        ? { role: "close", label: "Выход" }
+        : { role: "quit", label: "Выход" }
     ]
   },
   // { role: 'editMenu' }
   {
-    label: "Edit",
+    label: "Правки",
     submenu: [
       {
-        label: "Undo",
+        label: "Отмена",
         accelerator: "CmdOrCtrl+Z",
         registerAccelerator: false,
         click: () => {
@@ -92,7 +94,7 @@ const template = [
         }
       },
       {
-        label: "Redo",
+        label: "Повтор",
         accelerator: "CmdOrCtrl+Y",
         registerAccelerator: false,
         click: () => {
@@ -101,7 +103,7 @@ const template = [
       },
       { type: "separator" },
       {
-        label: "Cut",
+        label: "Вырезать",
         accelerator: "CmdOrCtrl+X",
         registerAccelerator: false,
         click: () => {
@@ -109,7 +111,7 @@ const template = [
         }
       },
       {
-        label: "Copy",
+        label: "Копировать",
         accelerator: "CmdOrCtrl+C",
         registerAccelerator: false,
         click: () => {
@@ -117,7 +119,7 @@ const template = [
         }
       },
       {
-        label: "Paste",
+        label: "Вставить",
         accelerator: "CmdOrCtrl+V",
         registerAccelerator: false,
         click: () => {
@@ -126,21 +128,21 @@ const template = [
       },
       { type: "separator" },
       {
-        label: "Find",
+        label: "Найти",
         accelerator: "CmdOrCtrl+F",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("edit-find");
         }
       },
       {
-        label: "Replace",
+        label: "Заменить",
         accelerator: "CmdOrCtrl+H",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("edit-replace");
         }
       },
       {
-        label: "Reformat Code",
+        label: "Форматировать код",
         accelerator: "CmdOrCtrl+Shift+F",
         click: () => {
           BrowserWindow.getFocusedWindow().webContents.send("clang-format");
@@ -150,57 +152,61 @@ const template = [
   },
   // { role: 'viewMenu' }
   {
-    label: "View",
+    label: "Вид",
     submenu: [
-      { role: "reload" },
-      { role: "forcereload" },
-      { role: "toggledevtools" },
+      { role: "reload", label: "Обновить" },
+      { role: "forcereload", label: "Принудительно обновить" },
+      { role: "toggledevtools", label: "Инструменты разработчика" },
+      { type: "separator", label: "" },
+      { role: "resetzoom", label: "Масштаб по умолчанию" },
+      { role: "zoomin", label: "Увеличить" },
+      { role: "zoomout", label: "Уменьшить" },
       { type: "separator" },
-      { role: "resetzoom" },
-      { role: "zoomin" },
-      { role: "zoomout" },
-      { type: "separator" },
-      { role: "togglefullscreen" }
+      { role: "togglefullscreen", label: "Полноэкранный режим" }
     ]
   },
   {
-    label: "Tools",
+    label: "Инструменты",
     submenu: [
     ]
   },
   // { role: 'windowMenu' }
   {
-    label: "Window",
+    label: "Окно",
     submenu: [
-      { role: "minimize" },
-      { role: "zoom" },
+      { role: "minimize", label: "Свернуть" },
+        //{ role: "zoom", label: "Масштаб" },
       ...(isMac
         ? [
           { type: "separator" },
-          { role: "front" },
+          { role: "front", label: "front" },
           { type: "separator" },
-          { role: "window" }
+          { role: "window", label: "Окно" }
         ]
         : [
-          { role: "close" }
+          { role: "close", label: "Закрыть" }
         ])
     ]
   },
+
   {
-    role: "help",
+    role: "Help", label: "Справка",
     submenu: [
       {
-        label: "Learn More",
+        label: "О проекте",
         click() { shell.openExternal("https://www.kbide.org"); }
       },
+      /*
       {
-        label: "About",
+        label: "О проекте",
         click() { shell.openExternal("https://www.kbide.org/about"); }
       },
+      */
       {
-        label: "IDE Tour",
+        label: "Обучающий тур",
         click() { BrowserWindow.getFocusedWindow().webContents.send("help-tour"); }
       },
+      /*
       { type: "separator" },
       {
         label: "Update",
@@ -208,8 +214,10 @@ const template = [
           BrowserWindow.getFocusedWindow().webContents.send("help-update");
         }
       }
+      */
     ]
   }
+
 ];
 
 const menu = Menu.buildFromTemplate(template);
