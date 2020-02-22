@@ -4,7 +4,7 @@
             <v-btn color="primary darken-2" slot="activator" icon @click.native="openFilePopUp">
                 <v-icon dark>fa-folder-open</v-icon>
             </v-btn>
-            <span>Open file</span>
+            <span>Открыть файл</span>
         </v-tooltip>
     </div>
 </template>

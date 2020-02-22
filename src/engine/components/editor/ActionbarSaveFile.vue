@@ -3,7 +3,7 @@
         <v-btn color="primary darken-2" slot="activator" icon @click.native="saveFilePopUp">
             <v-icon dark>fa-floppy-o</v-icon>
         </v-btn>
-        <span>Save file</span>
+        <span>Сохранить файл</span>
     </v-tooltip>
 </template>
 
