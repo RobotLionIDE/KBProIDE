@@ -13,3 +13,6 @@
 [submodule "boards/esp32-wroom"]
 	path = boards/esp32-wroom
 	url = https://github.com/RobotLionIDE/generic-esp32-wroom.git
+[submodule "boards/robot-lion"]
+	path = boards/robot-lion
+	url = https://github.com/RobotLionIDE/robot-lion-board
